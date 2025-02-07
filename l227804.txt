@@ -1,0 +1,180 @@
+
+#question 01
+
+# Import libraries
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+# Creating dataset
+group_A = [12, 15, 14, 13, 16, 18, 19, 15, 14, 20, 17, 14, 15,40,45,50,62]
+group_B = [12, 17, 15, 13, 19, 20, 21, 18, 17, 16, 15, 14, 16, 15]
+
+#for group_a
+plt.boxplot(group_A)
+plt.show()
+#for group_b
+plt.boxplot(group_B)
+plt.show()
+
+
+#question 02
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+import random
+
+# Open the file in read mode
+file = open("genome.txt", "r")
+content = file.read()
+genome_sequence = list(content)  # Create a list of nucleotides
+genome_length = len(genome_sequence)  # Get the length of the sequence
+print(content)
+print(genome_length)
+
+# We'll use the parametric equations for a helix:
+# x = cos(t), y = sin(t), z = t (or a scaled version of t)
+# We want to span a range so that the helix makes a few turns.
+
+# Create 3D plot
+fig = plt.figure()
+ax = fig.add_subplot(projection='3d')
+
+# Generate coordinates for each nucleotide along the helix
+t = np.linspace(0, 4 * np.pi, genome_length)  # 4*pi gives about 2 turns
+x = np.cos(t)
+y = np.sin(t)
+z = np.linspace(0, 5, genome_length)  # z increases linearly to spread out the helix vertically
+
+# Define colors for each nucleotide
+colors = {'A': 'red', 'T': 'blue', 'C': 'green', 'G': 'orange'}
+
+# Plot each nucleotide with its corresponding color and coordinates
+for i, nucleotide in enumerate(genome_sequence):
+    if nucleotide in colors:  # Check if the nucleotide is valid
+        ax.scatter(x[i], y[i], z[i], color=colors[nucleotide], marker='o')
+
+# Adding labels and title
+ax.set_xlabel("X")
+ax.set_ylabel("Y")
+ax.set_zlabel("Z")
+ax.set_title("Genome Visualization")
+
+# Show the plot
+plt.show()
+
+# Close the file
+file.close()
+
+#question3
+
+import matplotlib.pyplot as plt
+import numpy as np
+import requests
+from PIL import Image
+from io import BytesIO
+
+# URL of the image to download
+image_url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREawo91akRRTcD31zs6I8P7Z8lpkSCi_3i_g&s"
+
+# Download the image using requests
+response = requests.get(image_url)
+response.raise_for_status()  # Raise an exception if the request failed
+
+# Open the image using PIL
+image = Image.open(BytesIO(response.content))
+
+# Convert the image to a NumPy array
+img_array = np.array(image)
+
+# Plot the original image
+plt.figure(figsize=(6, 6))
+plt.imshow(img_array)
+plt.title("Original Image")
+plt.axis("off")
+plt.show()
+
+# Rotate the image 90 degrees counterclockwise
+rotated_img = np.rot90(img_array)
+
+# Plot the rotated image
+plt.figure(figsize=(6, 6))
+plt.imshow(rotated_img)
+plt.title("Rotated Image")
+plt.axis("off")
+plt.show()
+
+# Flip the image horizontally
+flipped_img = np.fliplr(img_array)
+
+# Plot the flipped image
+plt.figure(figsize=(6, 6))
+plt.imshow(flipped_img)
+plt.title("Flipped Image")
+plt.axis("off")
+plt.show()
+
+# Apply grayscale filter
+gray_img = np.dot(img_array[..., :3], [0.299, 0.587, 0.114])
+
+# Plot the grayscale image
+plt.figure(figsize=(6, 6))
+plt.imshow(gray_img, cmap="gray")
+plt.title("Grayscale Image")
+plt.axis("off")
+plt.show()
+
+#question 04
+a)
+import numpy as np
+from sklearn.datasets import load_iris
+
+# Load the Iris dataset
+iris = load_iris()
+X = np.array(iris.data)  # Features (sepal length, sepal width, petal length, petal width)
+Y = np.array(iris.target)  # Target variable (species)
+
+# Calculate mean, median, and standard deviation for each feature
+feature_names = iris.feature_names
+for i in range(X.shape[1]):
+    print(f"Feature: {feature_names[i]}")
+    print(f"Mean: {np.mean(X[:, i])}")
+    print(f"Median: {np.median(X[:, i])}")
+    print(f"Standard Deviation: {np.std(X[:, i])}")
+    print(f"Minimum: {np.min(X[:, i])}")
+    print(f"Maximum: {np.max(X[:, i])}")
+    print("-" * 20)
+
+# Extract sepal length and sepal width
+sepal_length_width = X[:, :2]  # Selects the first two columns (sepal length and sepal width)
+print("Sepal Length and Sepal Width:")
+print(sepal_length_width)
+
+b)
+import matplotlib.pyplot as plt
+
+# Scatter plot of sepal length vs sepal width
+plt.figure(figsize=(8, 6))
+plt.scatter(X[:, 0], X[:, 1], c=Y, cmap='viridis')  # Color points by species
+plt.xlabel("Sepal Length (cm)")
+plt.ylabel("Sepal Width (cm)")
+plt.title("Scatter Plot of Sepal Length vs Sepal Width")
+plt.colorbar(label="Species")  # Add a colorbar to show species mapping
+plt.show()
+
+# Histogram of sepal length
+plt.figure(figsize=(8, 6))
+plt.hist(X[:, 0], bins=20, color='skyblue', edgecolor='black')
+plt.xlabel("Sepal Length (cm)")
+plt.ylabel("Frequency")
+plt.title("Distribution of Sepal Length")
+plt.show()
+
+# Line plot of petal length vs petal width
+plt.figure(figsize=(8, 6))
+plt.plot(X[:, 2], X[:, 3], marker='o', linestyle='-', color='orange')
+plt.xlabel("Petal Length (cm)")
+plt.ylabel("Petal Width (cm)")
+plt.title("Relationship between Petal Length and Petal Width")
+plt.show()
