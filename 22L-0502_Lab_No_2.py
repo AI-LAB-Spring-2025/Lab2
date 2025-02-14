@@ -19,7 +19,7 @@ plt.boxplot(group_B)
 plt.title("Group B")
 plt.ylabel("Measurements Values")
 
-plt.suptitle(" Comparison of BoxPlot between Group A and Group B")
+plt.suptitle("Comparison of BoxPlot between Group A and Group B")
 plt.show()
 
 ######===================================================================
@@ -112,12 +112,12 @@ plt.show()
 
 
 ####### =============================== Question No 4 =================
-
+import pandas as pd
+import numpy as np
 from sklearn.datasets import load_iris
 import matplotlib.pyplot as plt
 
-import pandas as pd
-import numpy as np
+
 # Load the Iris dataset
 iris = load_iris()
 X = np.array(iris.data)
@@ -127,11 +127,11 @@ df = pd.DataFrame(data=iris.data, columns=iris.feature_names)
 df['target'] = iris.target
 
 
-print("mean ",df.mean())
-print("median ",df.std())
-print("standard dev ",df.median())
-print("min",df.min())
-print("max ",df.min())
+print("Mean ",df.mean())
+print("Median ",df.std())
+print("Standerd Daviation",df.median())
+print("Minimumn",df.min())
+print("Maximum ",df.min())
 
 
 
